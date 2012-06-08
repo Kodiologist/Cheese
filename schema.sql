@@ -8,9 +8,12 @@ create table Subjects
     task_version    text);
 
 create table MTurk
-   (sn              integer         not null
+   (workerid        text            primary key not null,
+    sn              integer
       references Subjects(sn),
-    workerid        text            not null,
+      -- When sn is null, this row represents an MTurk worker who
+      -- wasn't a subject in this study but who we want to
+      -- exclude (because they did a similiar study, presumably).
     hitid           text            not null,
     assignmentid    text            not null);
 
