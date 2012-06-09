@@ -77,6 +77,13 @@ eval
     $o->yesno_page('attracted_to_women',
         '<p>Are you sexually attracted to women?</p>');
 
+    $o->text_entry_page('comments',
+        q(<p>(OPTIONAL) If you have any comments about this study that you'd like to make, you may enter them below.</p>),
+        multiline => 1,
+        accept_blank => 1,
+        max_chars => 7 * 500);
+          # Room for at least 500 words.
+
     $o->completion_page;};
 
 defined $@ or $@ = 'Hit bottom with undefined $@';
@@ -131,6 +138,9 @@ Content-Type: text/html; charset=utf-8
 
     img.cheesecake
        {border: thin solid black;}
+
+    textarea.text_entry
+       {width: 90%;}
 
    </style>
 </head>
