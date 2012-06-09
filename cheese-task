@@ -69,6 +69,13 @@ eval
             @ds = grep {$_->[0] != $d} @ds;}
         menu_page $o, $choice, @ds;}
 
+    $o->buttons_page('gender',
+        '<p>Are you male or female?</p>',
+        'Male', 'Female');
+
+    $o->yesno_page('attracted_to_women',
+        '<p>Are you sexually attracted to women?</p>');
+
     $o->completion_page;};
 
 defined $@ or $@ = 'Hit bottom with undefined $@';
