@@ -18,9 +18,10 @@ sub enum1
    return map {[++$n, $_]} @_;}
 
 sub menu_page
-   {my ($o, $choice, @ps) = @_;
+   {my ($o, $show_hint, $choice, @ps) = @_;
     $o->multiple_choice_page($choice ? "choice$choice" : undef,
-        sprintf('<p>%s of the %s pictures do you find most appealing?</p>',
+        sprintf('%s<p>%s of the %s pictures do you find most appealing?</p>',
+            $show_hint ? q(<p class="long"><strong>Hint:</strong> If the images appear too tall to fit on the screen, try viewing this frame in its own window. (In Firefox, you can accomplish this by right-clicking on the frame and choosing "This Frame" &rarr; "Show Only This Frame".) If you do this, you may get a blank page when you submit the HIT, but don't be alarmed: it should still have gone through.</p>) : '',
             $choice < 2 ? 'Which' : 'Now, which',
             $choice < 2 ? 'below' : 'remaining'),
         map
@@ -50,7 +51,7 @@ eval
         preview => sub
            {my $o = shift;
             print '<p class="note">(This is only a preview. Accept the HIT before beginning to work.)</p>';
-            menu_page $o, 0, enum1 shuffle @pictures;},
+            menu_page $o, 0, 0, enum1 shuffle @pictures;},
 
         after_consent_prep => sub
            {my $o = shift;
@@ -67,7 +68,7 @@ eval
           # Remove previously-chosen items from the lineup.
            {my $d = $o->getu("choice$prev_choice");
             @ds = grep {$_->[0] != $d} @ds;}
-        menu_page $o, $choice, @ds;}
+        menu_page $o, $choice == 1, $choice, @ds;}
 
     $o->buttons_page('gender',
         '<p>Are you male or female?</p>',
@@ -93,7 +94,7 @@ Content-Type: text/html; charset=utf-8
 <html lang="en-US">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Sex-Appeal Survey</title>
+    <title>Sex-Appeal Rating</title>
     <style type="text/css">
 
     h1, form, p.stimulus, div.expbody p
