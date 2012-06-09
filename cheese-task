@@ -9,19 +9,7 @@ use strict;
 use lib '/home/dove/perl';
 use Tversky qw(htmlsafe shuffle);
 
-my %desserts =
-   ('pbbrowcake.jpg' => 'Peanut-butter cup brownie cake',
-    'wcbrule.jpg' => 'White-chocolate brûlée cheesecake',
-    'ocheesecook.jpg' => 'Oreo cheecake cookies',
-    'cookiepie.jpg' => 'Cookie-dough cheesecake',
-    'oreocc.jpg' => 'Death by Oreo cupcakes',
-    'bbyogurt.jpg' => 'Blackberry ice cream',
-    'wlsorbet.jpg' => 'Watermelon lime sorbet',
-    'doughnuts.jpg' => 'Assorted doughnuts',
-    'rainbow.jpg' => 'Rainbow-swirl cookies',
-    'bars.jpg' => 'Caramel-chocolate-marshmallow bars',
-    'malt.jpg' => 'Malt-ball chocolate cake',
-    'iaps-7405.jpg' => 'White frosted cupcakes');
+my @pictures = qw(back.jpg bent.jpg crosses.jpg crotchwards.jpg curls.jpg deck.jpg mirror.jpg profile.jpg skintone.jpg stairs.jpg office.jpg shirt.jpg);
 
 # ------------------------------------------------
 
@@ -29,19 +17,17 @@ sub enum1
   {my $n = 0;
    return map {[++$n, $_]} @_;}
 
-sub dessert_menu_page
-   {my ($o, $choice, @ds) = @_;
+sub menu_page
+   {my ($o, $choice, @ps) = @_;
     $o->multiple_choice_page($choice ? "choice$choice" : undef,
-        sprintf('<p>%s of the %s desserts do you find most appealing?</p>',
+        sprintf('<p>%s of the %s pictures do you find most appealing?</p>',
             $choice < 2 ? 'Which' : 'Now, which',
             $choice < 2 ? 'below' : 'remaining'),
         map
            {my ($i, $file) = @$_;
-            $i => sprintf '<div><img class="dessert" src="%s" alt="%s"></div><div class="dessert-description">%s</div>',
-                htmlsafe($p{dessert_url_prefix} . $file),
-                htmlsafe($desserts{$file}),
-                htmlsafe($desserts{$file})}
-        @ds);}
+            $i => sprintf '<img class="cheesecake" src="%s" alt="Cheesecake image">',
+                htmlsafe($p{cheesecake_url_prefix} . $file);}
+        @ps);}
 
 # ------------------------------------------------
 
@@ -64,24 +50,24 @@ eval
         preview => sub
            {my $o = shift;
             print '<p class="note">(This is only a preview. Accept the HIT before beginning to work.)</p>';
-            dessert_menu_page $o, 0, enum1 shuffle keys %desserts;},
+            menu_page $o, 0, enum1 shuffle @pictures;},
 
         after_consent_prep => sub
            {my $o = shift;
-            $o->assign_permutation('dessert_permutation', '|',
-                keys %desserts);},
+            $o->assign_permutation('cheesecake_permutation', '|',
+                @pictures);},
 
         footer => "\n\n\n</body></html>\n",
 
-        mturk => $p{mturk});
+        mturk => $p{mturk}, assume_consent => $p{assume_consent});
 
     foreach my $choice (1, 2, 3)
-       {my @ds = enum1 split /\|/, $o->getu('dessert_permutation');
+       {my @ds = enum1 split /\|/, $o->getu('cheesecake_permutation');
         for (my $prev_choice = 1 ; $prev_choice < $choice ; ++$prev_choice)
           # Remove previously-chosen items from the lineup.
            {my $d = $o->getu("choice$prev_choice");
             @ds = grep {$_->[0] != $d} @ds;}
-        dessert_menu_page $o, $choice, @ds;}
+        menu_page $o, $choice, @ds;}
 
     $o->completion_page;};
 
@@ -100,7 +86,7 @@ Content-Type: text/html; charset=utf-8
 <html lang="en-US">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Dessert Survey</title>
+    <title>Sex-Appeal Survey</title>
     <style type="text/css">
 
     h1, form, p.stimulus, div.expbody p
@@ -135,11 +121,8 @@ Content-Type: text/html; charset=utf-8
        {display: table-cell;
         vertical-align: middle;}
 
-    img.dessert
+    img.cheesecake
        {border: thin solid black;}
-    div.dessert-description
-       {font-size: 35px;
-        padding-left: 10px;}
 
    </style>
 </head>
