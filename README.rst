@@ -1,0 +1,14 @@
+This repository houses the task code and handouts for Cheese_, a stimulus-norming study. See the source package for Cheese for information about the stimulus images.
+
+.. _Cheese: http://arfer.net/projects/cheese
+
+License
+============================================================
+
+This program is copyright 2012 Kodi Arfer.
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the `GNU General Public License`_ for more details.
+
+.. _`GNU General Public License`: http://www.gnu.org/licenses/
