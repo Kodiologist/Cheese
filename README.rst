@@ -1,4 +1,4 @@
-This repository houses the task code and handouts for Cheese_, a stimulus-norming study. See the source package for Cheese for information about the stimulus images.
+This repository houses the task code for Cheese_, a stimulus-norming study. See the source package for Cheese for information about the stimulus images.
 
 .. _Cheese: http://arfer.net/projects/cheese
 
